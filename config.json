@@ -1,3 +1,9 @@
 {
-
+  "RedisMaxIdle":1024,
+  "RedisMaxActive":1024,
+  "RedisMaxIdleTimeout":10,
+  "Port":"8080",
+  "RedisHost":"127.0.0.1:6379",
+  "Redispwd": "",
+  "RedisDb": 1
 }

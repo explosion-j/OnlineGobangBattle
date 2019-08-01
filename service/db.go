@@ -1,19 +1,35 @@
 package service
 
 import (
+	"OnlineGobangBattle/config"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
+	"time"
 )
 
-var redisClient *redis.Pool
-var MaxIdled int = 1024
+var RedisClient *redis.Pool
 
 func ConnectRedis() {
-	//conredis,err:= redis.Dial("tcp","127.0.0.1:6379")
-	//if err!=nil{
-	//	log.Println("redis connection  failure",err)
-	//	return
-	//}
-	//maxIdle:=MaxIdled
-	//if v,ok:=
-
+	maxIdle := config.Conf.RedisMaxIdle
+	maxActive := config.Conf.RedisMaxIdle
+	RedisClient = &redis.Pool{
+		MaxIdle:     maxIdle,
+		MaxActive:   maxActive,
+		IdleTimeout: 10 * time.Second,
+		Wait:        true,
+		Dial: func() (conn redis.Conn, e error) {
+			con, err := redis.Dial("tcp", config.Conf.RedisHost,
+				redis.DialPassword(config.Conf.Redispwd),
+				redis.DialDatabase(config.Conf.RedisDb),
+				redis.DialConnectTimeout(10*time.Second),
+				redis.DialReadTimeout(10*time.Second),
+				redis.DialWriteTimeout(10*time.Second))
+			if err != nil {
+				fmt.Print("连接过成功1")
+				return nil, err
+			}
+			fmt.Print("连接过成功2")
+			return con, nil
+		},
+	}
 }
