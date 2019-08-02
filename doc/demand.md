@@ -6,10 +6,29 @@
 可以加入别人的房间
 房间可以退出   当房间所在人数为0时 房间自动销毁
 
-后台使用: gin    websocket  实现  数据库 用 redis 数据不做持久化处理     这个 下棋本身就是 瞎玩 所以不保留用户的 下棋记录和 账号 记录
+后台使用: 
 
+gin  websocket  实现  数据库 用 redis 数据不做持久化处理
+这个下棋本身就是 瞎玩 所以不保留用户的 下棋记录和 账号 记录
+
+####gin 
+`
+go get -u github.com/gin-gonic/gin
+`
+#### redis
+`
+go get github.com/gomodule/redigo/redis
+`
+
+####websocket
+`
+go get github.com/gorilla/websocket
+`
+####go.uuid
+`
+go get -u github.com/satori/go.uuid
+`
 前台：  姜宝宝 自己想
-
 姜宝宝 负责一个界面就ok了  就是 对战那个 页面 
 
 ![设计图](./design.png)
