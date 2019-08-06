@@ -20,7 +20,7 @@ func init() {
 	fmt.Print("初始化")
 	config.Loadconf()
 	service.ConnectRedis()
-	//
+	//姜测试
 }
 
 func main() {
