@@ -2,7 +2,6 @@ package service
 
 import (
 	"OnlineGobangBattle/config"
-	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"time"
 )
@@ -25,10 +24,8 @@ func ConnectRedis() {
 				redis.DialReadTimeout(10*time.Second),
 				redis.DialWriteTimeout(10*time.Second))
 			if err != nil {
-				fmt.Print("连接过成功1")
 				return nil, err
 			}
-			fmt.Print("连接过成功2")
 			return con, nil
 		},
 	}

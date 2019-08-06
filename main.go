@@ -20,9 +20,11 @@ func init() {
 	fmt.Print("初始化")
 	config.Loadconf()
 	service.ConnectRedis()
+	//
 }
 
 func main() {
+	go service.Manager.Start()
 	router := controller.MapRouters()
 	server := &http.Server{
 		Addr:    "0.0.0.0:" + config.Conf.Port,
@@ -32,6 +34,7 @@ func main() {
 	if err := server.ListenAndServe(); nil != err {
 		log.Fatalf("listen and serve failed: " + err.Error())
 	}
+
 }
 
 func handleSignal(server *http.Server) {

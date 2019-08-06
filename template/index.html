@@ -6,159 +6,306 @@
 </head>
 <script  type="text/javascript"  src="/static/jq2.0.js" ></script>
 <script type="text/javascript" src="/static/layer/layer.js"></script>
-<style>
-    body,html{
-        padding: 0px;
-        margin: 0px;
-        font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
-    }
-    .left{
-        width: 270px;
-        background-color: #f9fff2;
-        border-right: 1px solid #e4e4e4;
-        display: block;
-        float: left;
-    }
-    .logobox{
-        height: 180px;
-        vertical-align: center;
-    }
-    .logobox p{
-        margin: 0;
-        text-align: center;
-        line-height: 180px;
-    }
-    .nicknamebar{
-        height: 30px;
-        border-top: 1px solid #e4e4e4;
-        border-bottom: 1px solid #e4e4e4;
-    }
-    .niclable {
-        float: left;
-        height: 30px;
-        display: inline-block;
-        background-color: #f1f1f1;
-        padding: 0px 15px 0px 15px;
-        line-height: 30px;
-        font-size: 13px;
-        border-right: 1px solid #bfbfbf;
-    }
-    .niclablechange{
-        float: right;
-        height: 30px;
-        display: inline-block;
-        background-color: #f1f1f1;
-        padding:0px 9px 0px 9px;
-        line-height: 30px;
-        font-size: 13px;
-        border-right: 1px solid #bfbfbf;
-        cursor: pointer;
-    }
-    .name{
-        float: left;
-        height: 30px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        color: #555;
-        background-color: #fff;
-        background-image: none;
-        border: 1px solid #ccc;
-        border-radius: 0px;
-        border-top: 0px;
-        border-bottom: 0px;
-        border-left: 0px;
-        padding: 0px 10px 0px 10px;
-    }
-    .name:focus{
-        border-color: #66afe9;
-        outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-    }
-    .numberofonline{
-        height: 30px;
-        border-bottom: 1px solid #e4e4e4;
-        line-height: 30px;
-        background-color: #dff0d8;
-        color: #3c763d;
-    }
-    .numberofonline span{
-        font-size: 13px;
-    }
-    .numberofonline .number{
-        display: inline-block;
-        min-width: 10px;
-        padding: 3px 7px;
-        font-size: 12px;
-        font-weight: bold;
-        color: #fff;
-        line-height: 1;
-        vertical-align: middle;
-        white-space: nowrap;
-        text-align: center;
-        background-color: red;
-        border-radius: 10px;
-        float: right;
-        margin-top: 6px;
-        margin-right: 4px;
-    }
-    .pbar{
-        height: 30px;
-        border-bottom: 1px solid #e4e4e4;
-        line-height: 30px;
-        background-color: white;
-        color: #343434;
-        line-height: 30px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .pbar img{
-        width: 20px;
-        height: 20px;
-        margin-top: 5px;
-        margin-left: 5px;
-        float: left;
-        margin-right: 10px;
-    }
-    .Onlinelist {
-        overflow: scroll;
-    }
+<link rel="stylesheet" type="text/css" href="/static/s.css">
 
-</style>
 <body>
 <div  class="left" >
-    <div class="logobox" >
-        <p>balabala</p>
-    </div>
+
     <div class="nicknamebar" >
         <span class="niclable">昵称</span>
         <input class="name" />
         <span class="niclablechange">修改</span>
     </div>
     <div class="numberofonline">
-        <span><span class="number">1</span>  &nbsp;&nbsp;&nbsp;当前在线人数</span>
+        <span><span class="number" id="onlinepn" >1</span>  &nbsp;&nbsp;&nbsp;当前在线人数</span>
+    </div>
+    <div class="Onlinelist" id="onlinepview" >
     </div>
 
-    <div class="Onlinelist" >
-
-        <div class="pbar">
-            <img src="/static/p.png" >   大战三百回合
-        </div>
-
+    <div class="closeonlinpipban" >
+        关闭
     </div>
 
 </div>
 
+<div  class="right" >
+    <div class="numberofonline">
+        <span>
+            <span class="number Createaroom">创建</span>  &nbsp;&nbsp;&nbsp;房间列表</span>
+    </div>
+    <div class="Onlinelist" >
+        <div class="pbar">
+               &nbsp;&nbsp;&nbsp;大战三百回合
+        </div>
+    </div>
+</div>
+
+
+<div class="chatbox" >
+
+    <div class="mestitle" >
+
+        <span>这是标题</span>
+        <div style="float: right">关闭</div>
+
+    </div>
+    <div class="messagebox"  id="contentshow" >
+
+        <div id="containerview" ></div>
+    </div>
+
+    <div class="messagebar">
+        <input class="messageinput" />
+        <span class="send" >发送</span>
+    </div>
+</div>
 
 </body>
 <script>
+    window.wscone = null;
+    var  numberofonline = [];
+    var  roomfonline = [];
+    var self ={};
+    var nowsession  = {};
+    var Messagecachelist = {};
+    var rendmastlist =[];
+    var  openstate = false;
+    var  leftbanopenstate = true;
+
+    $(".closeonlinpipban").on("click",function () {
+
+        if(leftbanopenstate){
+         //关闭
+            leftbanopenstate = false;
+            $(".closeonlinpipban").html("打开");
+            $(".left").animate({'left':'-270px'});
+            // $(".chatbox").width(window.innerWidth-(270*2)-20);
+        }else{
+            //打开
+            leftbanopenstate = true;
+            $(".closeonlinpipban").html("关闭");
+            $(".left").animate({'left':'0px'})
+        }
+    });
+
+    function  Rendermessagelist() {
+        console.log(Messagecachelist[nowsession["Uuid"]]["data"]);
+        var allhtmle  = "";
+        for( var item in Messagecachelist[nowsession["Uuid"]]["data"] ){
+            allhtmle+= " <div style=\"text-align: "+
+                (Messagecachelist[nowsession["Uuid"]]["data"][item]["send"]["Uuid"]==self["uid"]?"right":"left")
+                +"   \"    class=\"pbarsss\">\n" +
+                (Messagecachelist[nowsession["Uuid"]]["data"][item]["send"]["Uuid"]==self["uid"]?"":Messagecachelist[nowsession["Uuid"]]["data"][item]["send"]["Name"]+ "")
+                + " "+ (Messagecachelist[nowsession["Uuid"]]["data"][item]["send"]["Uuid"]==self["uid"]?Messagecachelist[nowsession["Uuid"]]["data"][item]["send"]["Name"]+"":"")
+                +"<div><p>"+Messagecachelist[nowsession["Uuid"]]["data"][item]["content"]+"</p></div>" + "       </div>"
+        }
+
+        $("#containerview").html(allhtmle);
+        $('#contentshow').stop().animate({scrollTop:$('#containerview').height()}, 400);
+
+
+
+    }
+    
+    function updatechat(){
+        for (var item in Messagecachelist ){
+            if(Messagecachelist[item]["read"] == false){
+                console.log("dsadsadsadsads");
+                console.log(Messagecachelist[item]["data"][0]);
+                console.log(nowsession);
+                var targetid  = null;
+
+                if(Messagecachelist[item]["data"][0]["send"]["Uuid"] != self["uid"]){
+                    targetid = Messagecachelist[item]["data"][0]["send"]["Uuid"];
+                }else if(Messagecachelist[item]["data"][0]["recipient"]["Uuid"] != self["uid"]) {
+                    targetid = Messagecachelist[item]["data"][0]["recipient"]["Uuid"];
+                }
+
+                if(nowsession !=null && targetid == nowsession["Uuid"] &&  openstate ){
+                    //对应面板已经打开 直接渲染面板
+                    //更改未读状态
+                    Messagecachelist[item]["read"] = true;
+                    Rendermessagelist();
+                }else{
+                    //提示未读信息
+                    rendermuberoflineview(numberofonline);
+                }
+            }
+        }
+    }
+
+    $(".mestitle>div").on("click",function () {
+        $(".chatbox").animate({'bottom':'-284px'});
+        openstate = false;
+    });
+    $(".send").on("click",function () {
+        var value = $(".messageinput")[0].value;
+        sendmage(value);
+    });
+    $(".messageinput").keypress(function (e) {
+        if (e.which == 13) {
+            var value = $(".messageinput")[0].value;
+            sendmage(value);
+        }
+    });
+    function sendmage(value) {
+        if(value == null || value == ""){
+            layer.msg('不能发送空消息');
+            return;
+        }
+        var  sendobj = {
+            "send":{
+                "Uuid":self["uid"],
+                "Name":self["name"]
+            },
+            "recipient":nowsession,
+            "content":value,
+            "type":"msg",
+        };
+        var sends  =   JSON.stringify(sendobj);
+        window.wscone.send(sends);
+        $(".messageinput")[0].value ="";
+    }
+
+    function  Handlerclickp(d) {
+        console.log($(d).attr("data"));
+        console.log(self);
+        var nowdata =  JSON.parse($(d).attr("data"));
+        if(nowdata["Uuid"] ==  self["uid"] ){
+            layer.msg('不能和自己发起会话');
+            return;
+        }else{
+            nowsession  = nowdata;
+            $(".mestitle>span").html(nowsession["Name"]);
+            //打开对应的 会话 窗口
+            $(".chatbox").animate({'bottom':'0px'});
+            openstate = true;
+            Messagecachelist[nowsession["Uuid"]]["read"] = true;
+            rendermuberoflineview(numberofonline);
+            Rendermessagelist();
+
+        }
+    }
+    function rendermuberoflineview(data){
+        $("#onlinepn").html(data.length);
+        var allhtmle  = "";
+        for( var item in data ){
+            allhtmle+= " <div onclick='Handlerclickp(this)'  data='"+JSON.stringify(data[item])+"'  class=\"pbar\">\n" +
+                "            <img src=\"/static/p.png\" >   "+data[item]["Name"]+ "\n" +
+                (Messagecachelist[data[item]["Uuid"]] != null && Messagecachelist[data[item]["Uuid"]]["read"]== false?"<span/>":"")+
+                "        </div>"
+        }
+        $("#onlinepview").html(allhtmle);
+    }
+    function getonlinepp(){
+        $.ajax({url:"/online",success:function(result){
+                for(var i in result["online"]){
+                    result["online"][i] = JSON.parse(result["online"][i]);
+                }
+                numberofonline = result["online"];
+                rendermuberoflineview(result["online"]);
+            }});
+    }
+
     $(function () {
-
         $(".left").height(window.innerHeight);
-        $(".Onlinelist").height(window.innerHeight-(180+64))
+        $(".right").height(window.innerHeight);
+        $(".Onlinelist").height(window.innerHeight-(64));
+        $("body").height(window.innerHeight);
+        $(".chatbox").width(window.innerWidth-(270*2)-20);
+        intil =   $.ajax({url:"/setuser",
+            type:"get",
+            xhrFields:{withCredentials:true},
+            success:function(result, status, xhr){
+                $(".name")[0].value =result["name"];
+                self = result;
+                getonlinepp();
+                window.wscone=new WebSocket("ws://127.0.0.1:8080/ws");
+                //监听消息
+                window.wscone.onmessage = function(event) {
+                    console.log("接受到消息");
+                    console.log(event.data);
+                    var dat  =  JSON.parse(event.data);
+                    var content  =  JSON.parse(dat["content"]);
+
+                    if(dat["type"] == "offline"){
+                        //下线
+                        var nowvdat = dat["content"];
+                         removeindex = null;
+                        for(var i in  numberofonline){
+                             if(numberofonline[i]["Uuid"] ==  nowvdat["Uuid"]){
+                                 removeindex = i;
+                             }
+                        }
+                        if(removeindex !=null){
+                            numberofonline.splice(removeindex,1)
+                        }
+                        rendermuberoflineview(numberofonline);
+                    }else if(dat["type"]=="online"){
+                        //上线
+                        numberofonline.push(dat["content"]);
+                        rendermuberoflineview(numberofonline);
+                    }else if(content["type"] == "msg"){
+                        //接收消息处理
+                        if(content["send"]["Uuid"] == self["uid"] ||  content["recipient"]["Uuid"] == self["uid"]){
+                            //添加到显示队列  中 并 出发 对应的 显示
+                            console.log(content);
+
+                            if(content["send"]["Uuid"] == self["uid"]){
+                                if(Messagecachelist[content["recipient"]["Uuid"]] == null){
+                                    Messagecachelist[content["recipient"]["Uuid"]] ={
+                                        "read":false,
+                                        "data":[]
+                                    };
+                                }
+                                Messagecachelist[content["recipient"]["Uuid"]]["read"] = false;
+                                Messagecachelist[content["recipient"]["Uuid"]]["data"].push(content);
+                            }
+                            if(content["recipient"]["Uuid"] == self["uid"]){
+                                if(Messagecachelist[content["send"]["Uuid"]] == null){
+                                    Messagecachelist[content["send"]["Uuid"]] ={
+                                        "read":false,
+                                        "data":[]
+                                    };
+                                }
+                                Messagecachelist[content["send"]["Uuid"]]["read"] = false;
+                                Messagecachelist[content["send"]["Uuid"]]["data"].push(content);
+                            }
+                            updatechat();
+                        }
+
+                    }else {
+                        //接收游戏逻辑处理
+
+                    }
+
+                };
+                //close WebSocket 
+                window.wscone.onclose = function(event) {
+                    //WebSocket Status:: Socket Closed
+                };
+                // 打开WebSocket
+                window.wscone.onopen = function(event) {
+                    //// 发送一个初始化消息
+                    // window.wscone.send("Hello, Server!");
+                    //当打开的时候 获取 当前的 用户名
+                    $.ajax({url:"/user",success:function(result){
+                            console.log(result);}});
+
+                };
+                window.wscone.onerror =function(event){
+                    //WebSocket Status:: Error was reported
+                    console.log("错误事件");
+                    console.log(event);
+                };
 
 
-        console.log(window.innerHeight)
+
+            }});
+
+
+
+
 
     })
 </script>

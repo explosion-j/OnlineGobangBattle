@@ -1,0 +1,239 @@
+body,html{
+    padding: 0px;
+    margin: 0px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+}
+body{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.send{
+    display: block;
+    width: calc(10% - (22px));
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    background: #2792ff;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+}
+.messagebar{
+    height: 40px;
+    background-color: white;
+}
+.messageinput:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.messageinput{
+    height: 40px;
+    font-size: 14px;
+    width: 90%;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-left: 0px;
+    padding: 0px 10px 0px 10px;
+}
+
+.mestitle>div{
+    cursor: pointer;
+}
+.mestitle{
+    font-size: 13px;
+    height: 20px;
+    padding: 0px 10px 0px 10px;
+    background: #f9fff2;
+    color: #2891ff;
+}
+.messagebox{
+    background-color: #d7d7d7;
+    padding: 10px;
+    height: 180px;
+    overflow: scroll;
+}
+.chatbox{
+    border: 1px solid #a5a5a5;
+    position: absolute;
+    bottom: -284px;
+    left: 280px;
+    background-color: white;
+    border-bottom: 0px;
+}
+.Createaroom {
+    cursor: pointer;
+}
+.closeonlinpipban{
+    position: absolute;
+    top: 0px;
+    right: -41px;
+    background: #f1f1f1;
+    /* padding: 4px; */
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-left: 0px;
+}
+.left{
+    width: 270px;
+    background-color: #f9fff2;
+    border-right: 1px solid #e4e4e4;
+    display: block;
+    float: left;
+    position: absolute;
+}
+.right{
+    width: 270px;
+    background-color: #f9fff2;
+    border-left: 1px solid #e4e4e4;
+    display: block;
+    float: right;
+}
+.logobox{
+    height: 180px;
+    vertical-align: center;
+}
+.logobox p{
+    margin: 0;
+    text-align: center;
+    line-height: 180px;
+}
+.nicknamebar{
+    height: 30px;
+    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.niclable {
+    float: left;
+    height: 30px;
+    display: inline-block;
+    background-color: #f1f1f1;
+    width: 50px;
+    line-height: 30px;
+    font-size: 13px;
+    border-right: 1px solid #bfbfbf;
+    text-align: center;
+}
+
+.niclablechange{
+    float: right;
+    height: 30px;
+    display: inline-block;
+    background-color: #f1f1f1;
+    width: 47px;
+    line-height: 30px;
+    font-size: 13px;
+    border-right: 1px solid #bfbfbf;
+    cursor: pointer;
+    text-align: center;
+}
+.name{
+    float: left;
+    height: 30px;
+    font-size: 14px;
+    width: 150px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-left: 0px;
+    padding: 0px 10px 0px 10px;
+}
+.name:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.numberofonline{
+    height: 30px;
+    border-bottom: 1px solid #e4e4e4;
+    line-height: 30px;
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+.numberofonline span{
+    font-size: 13px;
+}
+.numberofonline .number{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    background-color: red;
+    border-radius: 10px;
+    float: right;
+    margin-top: 6px;
+    margin-right: 4px;
+}
+.pbarsss{
+    padding: 2px 0px 2px 0px;
+    font-size: 15px;
+}
+.pbarsss  p{
+    margin: 0px;
+    background: white;
+    display: inline-block;
+    padding: 3px 10px 3px 10px;
+    margin-top: 6px;
+    border-radius: 5px;
+
+}
+.pbar{
+    position: relative;
+    height: 30px;
+    border-bottom: 1px solid #e4e4e4;
+    line-height: 30px;
+    background-color: white;
+    color: #343434;
+    line-height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.pbar> span{
+    display: block;
+    background: red;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    border-radius: 10px;
+}
+.pbar img{
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+    margin-right: 10px;
+}
+.Onlinelist {
+    overflow: scroll;
+}
