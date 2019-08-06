@@ -20,12 +20,11 @@ import (
 func MapRouters() *gin.Engine {
 	ret := gin.New()
 	ret.Static("/static", "./StaticRes")
-
 	store := cookie.NewStore([]byte(""))
 	store.Options(sessions.Options{
 		Path:     "/",
 		MaxAge:   86400,
-		Secure:   strings.HasPrefix("http://127.0.0.1:8080", "http"),
+		Secure:   strings.HasPrefix("http://192.168.18.113:8080", "http"),
 		HttpOnly: true,
 	})
 	ret.Use(sessions.Sessions("mysession", store))
@@ -52,9 +51,6 @@ func MapRouters() *gin.Engine {
 		session := sessions.Default(c)
 		value := session.Get("uid")
 		if value != nil {
-
-			fmt.Print(value)
-			fmt.Print("缓存值 \n")
 
 			Conn := service.RedisClient.Get()
 			results, err := redis.Values(Conn.Do("lrange", "Listofusers", 0, -1))
@@ -96,7 +92,7 @@ func MapRouters() *gin.Engine {
 			}
 			session.Set("uid", string(j))
 			session.Options(sessions.Options{
-				Domain: "127.0.0.1",
+				Domain: "192.168.18.113",
 			})
 			session.Save()
 			//写入  redis 记录
@@ -145,7 +141,34 @@ func MapRouters() *gin.Engine {
 				"online": rslist,
 			})
 		}
+	})
 
+	ret.GET("/Createaroom", func(c *gin.Context) {
+		session := sessions.Default(c)
+		value := session.Get("uid")
+		if value == nil {
+			c.HTML(http.StatusOK, "index.html", gin.H{
+				"state": false,
+			})
+		} else {
+
+			name := c.Query("name")
+			fmt.Print(name)
+			fmt.Print("获取参数")
+
+			c.JSON(200, gin.H{
+				"state": true,
+				"info":  name,
+			})
+
+		}
+
+	})
+
+	ret.GET("/getroomlist", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"title": "War",
+		})
 	})
 
 	ret.GET("/", func(c *gin.Context) {
